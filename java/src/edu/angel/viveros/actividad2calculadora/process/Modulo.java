@@ -17,14 +17,12 @@ public class Modulo {
     public int calcular(int a, int b) {
 
         if (b == 0) {
-            System.out.println("No se puede calcular módulo entre 0");
-            return 0;
+            return 0; // la validación y el mensaje corresponden a la UI
         }
 
         Resta resta = new Resta();
         int resultado = a;
 
-        // Mientras el resultado siga siendo mayor o igual al divisor
         do {
             if (resultado < b) {
                 break;

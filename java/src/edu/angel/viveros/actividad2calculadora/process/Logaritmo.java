@@ -4,7 +4,7 @@ package edu.angel.viveros.actividad2calculadora.process;
  * Clase Logaritmo.
  * Calcula un logaritmo usando divisiones.
  */
-public class logaritmo {
+public class Logaritmo {
 
     public int calcular(int numero, int base) {
         DivisionEntera div = new DivisionEntera();
@@ -18,3 +18,4 @@ public class logaritmo {
         return contador;
     }
 }
+

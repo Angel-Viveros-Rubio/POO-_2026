@@ -2,7 +2,7 @@ package edu.angel.viveros.actividad2calculadora.process;
 
 /**
  * Clase Multiplicacion.
- * Multiplica usando solo sumas.
+ * Multiplica usando sumas.
  */
 public class Multiplicacion {
 
@@ -10,6 +10,10 @@ public class Multiplicacion {
         Suma suma = new Suma();
         double resultado = 0;
         int i = 0;
+
+        if (b == 0) {
+            return 0;
+        }
 
         do {
             resultado = suma.calcular(resultado, a);

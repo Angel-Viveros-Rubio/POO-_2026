@@ -4,17 +4,21 @@ package edu.angel.viveros.actividad2calculadora.process;
  * Clase DivisionEntera.
  * Realiza división entera usando restas.
  */
-public class DivisionEntera {
+public class DivisionEntera extends Resta {
+    @Override
+    public long calcular(long a, long b) {
+        if (b == 0) throw new ArithmeticException("División por cero");
 
-    public int calcular(int a, int b) {
-        if (b == 0) {
-            return 0;
+        boolean negativo = (a < 0) != (b < 0);
+        long absA = a < 0 ? -a : a;
+        long absB = b < 0 ? -b : b;
+
+        long cociente = 0;
+        while (absA >= absB) {
+            absA = super.calcular(absA, absB);
+            cociente++;
         }
 
-        Resta resta = new Resta();
-        int contador = 0;
-
-        while (a >= b) {
-            a = (int) resta.calcular(a, b);
-            contador++;
-        }
+        return negativo ? -cociente : cociente;
+    }
+}

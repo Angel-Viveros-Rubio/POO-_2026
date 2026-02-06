@@ -4,13 +4,9 @@ package edu.angel.viveros.actividad2calculadora.process;
  * Clase Suma.
  * Contiene la lógica de la suma.
  */
-public class Suma {
-
-     /**
-     * Realiza la suma de dos números.
-     * @return regresa el resultado
-     */
-    public double calcular(double a, double b) {
+public class Suma extends Operacion {
+    @Override
+    public long calcular(long a, long b) {
         return a + b;
     }
 }

@@ -5,31 +5,21 @@ package edu.angel.viveros.actividad2calculadora.process;
  * Calcula el residuo de una división sin usar el operador %.
  * Se apoya en la clase Resta.
  */
-public class Modulo {
+public class Modulo extends Resta {
+    @Override
+    public long calcular(long a, long b) {
+        if (b == 0) throw new ArithmeticException("División por cero");
 
-    /**
-     * Calcula el módulo entre dos números enteros.
-     *
-     * @param a dividendo
-     * @param b divisor
-     * @return residuo de la división
-     */
-    public int calcular(int a, int b) {
+        long absB = b < 0 ? -b : b;
+        long resto = a < 0 ? -a : a;
 
-        if (b == 0) {
-            return 0; // la validación y el mensaje corresponden a la UI
+        while (resto >= absB) {
+            resto = super.calcular(resto, absB);
         }
 
-        Resta resta = new Resta();
-        int resultado = a;
-
-        do {
-            if (resultado < b) {
-                break;
-            }
-            resultado = (int) resta.calcular(resultado, b);
-        } while (resultado >= b);
-
-        return resultado;
+        if (a < 0) {
+            resto = -resto;
+        }
+        return resto;
     }
 }

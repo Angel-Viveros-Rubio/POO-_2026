@@ -1,106 +1,79 @@
 package edu.angel.viveros.actividad2calculadora.ui;
 
 import edu.angel.viveros.actividad2calculadora.process.*;
+
 import java.util.Scanner;
 
-/**
- * Clase CLI.
- * Se encarga de la interacción con el usuario mediante la consola.
- * Muestra el menú de opciones y ejecuta las operaciones seleccionadas.
- */
 public class CLI {
+    private final Scanner scanner;
+    private final Calculadora calculadora;
 
-    /**
-     * Método que inicia la ejecución de la calculadora.
-     * Contiene el menú principal y controla el flujo del programa.
-     */
-    public static void iniciar() {
+    public CLI() {
+        scanner = new Scanner(System.in);
+        calculadora = new Calculadora();  // El motor de cálculos
+    }
 
-        Scanner sc = new Scanner(System.in);
-        int opcion;
+    public void iniciar() {
+        while (true) {
+            mostrarMenu();
+            int opcion = leerEntero("Seleccione una operación (1-9): ");
 
-        // Instancias de las clases de operaciones
-        Suma suma = new Suma();
-        Resta resta = new Resta();
-        Multiplicacion multiplicacion = new Multiplicacion();
-        DivisionEntera division = new DivisionEntera();
-        Modulo modulo = new Modulo();
-        Potencia potencia = new Potencia();
-        Raiz raiz = new Raiz();
-        Logaritmo logaritmo = new Logaritmo();
-
-        do {
-            System.out.println("\n=== CALCULADORA ===");
-            System.out.println("1. Suma");
-            System.out.println("2. Resta");
-            System.out.println("3. Multiplicación");
-            System.out.println("4. División entera");
-            System.out.println("5. Módulo");
-            System.out.println("6. Potencia");
-            System.out.println("7. Raíz");
-            System.out.println("8. Logaritmo");
-            System.out.println("0. Salir");
-            System.out.print("Opción: ");
-
-            opcion = sc.nextInt();
-
-            if (opcion == 0) {
-                System.out.println("Programa finalizado");
+            if (opcion == 9) {
+                System.out.println("¡Hasta luego!");
                 break;
             }
 
-            System.out.print("Ingresa el primer número: ");
-            double num1 = sc.nextDouble();
-
-            System.out.print("Ingresa el segundo número: ");
-            double num2 = sc.nextDouble();
-
-            double resultado;
-
-            switch (opcion) {
-                case 1:
-                    resultado = suma.calcular(num1, num2);
-                    break;
-
-                case 2:
-                    resultado = resta.calcular(num1, num2);
-                    break;
-
-                case 3:
-                    resultado = multiplicacion.calcular(num1, (int) num2);
-                    break;
-
-                case 4:
-                    resultado = division.calcular((int) num1, (int) num2);
-                    break;
-
-                case 5:
-                    resultado = modulo.calcular((int) num1, (int) num2);
-                    break;
-
-                case 6:
-                    resultado = potencia.calcular(num1, (int) num2);
-                    break;
-
-                case 7:
-                    resultado = raiz.calcular((int) num1);
-                    break;
-
-                case 8:
-                    resultado = logaritmo.calcular((int) num1, (int) num2);
-                    break;
-
-                default:
-                    System.out.println("Opción no válida");
-                    continue;
+            if (opcion < 1 || opcion > 8) {
+                System.out.println("Opción inválida. Intente de nuevo.\n");
+                continue;
             }
 
-            System.out.println("Resultado: " + resultado);
+            long a = leerLong("Ingrese el primer número (a): ");
+            long b = leerLong("Ingrese el segundo número (b): ");
 
-        } while (opcion != 0);
+            try {
+                long resultado = calculadora.ejecutar(opcion, a, b);
+                System.out.println("Resultado: " + resultado + "\n");
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage() + "\n");
+            }
+        }
+        scanner.close();
+    }
 
-        sc.close();
+    private void mostrarMenu() {
+        System.out.println("=== CALCULADORA SIN * / % ===");
+        System.out.println("1. Suma (a + b)");
+        System.out.println("2. Resta (a - b)");
+        System.out.println("3. Multiplicación (a * b)");
+        System.out.println("4. Potencia (a^b)");
+        System.out.println("5. Raíz (raíz b-ésima de a)");
+        System.out.println("6. División entera (a / b)");
+        System.out.println("7. Módulo (a % b)");
+        System.out.println("8. Logaritmo entero (log_b(a))");
+        System.out.println("9. Salir");
+        System.out.println();
+    }
+
+    private int leerEntero(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            try {
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Por favor ingrese un número entero válido.");
+            }
+        }
+    }
+
+    private long leerLong(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            try {
+                return Long.parseLong(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Por favor ingrese un número entero válido.");
+            }
+        }
     }
 }
-
-

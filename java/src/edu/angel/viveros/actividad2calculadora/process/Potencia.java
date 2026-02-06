@@ -1,21 +1,28 @@
 package edu.angel.viveros.actividad2calculadora.process;
 
-/**
- * Clase Potencia.
- * Calcula una potencia usando multiplicaciones.
- */
-public class Potencia {
 
-    public double calcular(double base, int exponente) {
-        Multiplicacion mult = new Multiplicacion();
-        double resultado = 1;
-        int i = 0;
+public class Potencia extends Multiplicacion {
+    @Override
+    public long calcular(long base, long exp) {
+        if (exp < 0) throw new IllegalArgumentException("Exponentes negativos no soportados");
+        if (exp == 0) return 1;
+        if (base == 0) return 0;
 
-        do {
-            resultado = mult.calcular(resultado, (int) base);
-            i++;
-        } while (i < exponente);
+        long resultado = 1;
+        long actualBase = base > 0 ? base : -base;
+        long actualExp = exp;
 
+        while (actualExp > 0) {
+            if ((actualExp & 1) == 1) {
+                resultado = super.calcular(resultado, actualBase);
+            }
+            actualBase = super.calcular(actualBase, actualBase);
+            actualExp >>= 1;
+        }
+
+        if (base < 0 && (exp & 1) == 1) {
+            resultado = -resultado;
+        }
         return resultado;
     }
 }
